@@ -21,6 +21,10 @@
 import logo from "../assets/images/Header-logo.png";
 import HeaderCart from "../features/header/HeaderCart.vue";
 import HeaderUserAvatar from "../features/header/HeaderUserAvatar.vue";
+
+// const isLogin = window.localStorage.getItem("isLogin");
+
+// console.log(isLogin);
 </script>
 
 <style lang="scss" scoped>
@@ -63,10 +67,7 @@ import HeaderUserAvatar from "../features/header/HeaderUserAvatar.vue";
 
 .Header-user {
   margin-left: 40px;
-  .Header-user-btn {
-    background-color: black;
-    color: white;
-    margin-left: 14px;
-  }
+  display: flex;
+  align-items: center;
 }
 </style>
