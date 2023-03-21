@@ -8,6 +8,7 @@
       chips
       label="Thương hiệu"
       :items="dataBrands"
+      menu-icon="mdi-chevron-down "
       multiple
     ></v-select>
 
@@ -18,20 +19,29 @@
       chips
       label="Size"
       :items="dataSizes"
+      menu-icon="mdi-chevron-down "
       multiple
     ></v-select>
 
-    <v-select v-model="price" label="Giá" :items="dataPrices"></v-select>
+    <v-select
+      v-model="price"
+      label="Giá"
+      menu-icon="mdi-currency-usd "
+      :items="dataPrices"
+    ></v-select>
 
     <v-select
       class="sale"
       v-model="sale"
       label="Giảm giá"
       :items="dataSale"
+      menu-icon="mdi-sale-outline "
       multiple
     ></v-select>
 
-    <v-btn color="black" @click="handleClickSearch">Tìm kiếm</v-btn>
+    <v-btn prepend-icon="mdi-magnify " color="black" @click="handleClickSearch"
+      >Tìm kiếm</v-btn
+    >
   </div>
 </template>
 

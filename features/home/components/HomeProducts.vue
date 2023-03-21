@@ -1,30 +1,31 @@
 <template>
   <v-container class="bg-surface-variant mb-6">
     <v-row align="start" no-gutters>
-      <v-col v-for="n in 12" :key="n">
-        <v-card class="mx-auto card" width="240" style="margin-bottom: 20px">
-          <div v-if="discount" class="card-discount">10%</div>
-          <div v-if="discount" class="card-discount-border"></div>
-          <v-card-item>
-            <div>
-              <v-img
-                height="200px"
-                src="https://cdn.pixabay.com/photo/2020/07/12/07/47/bee-5396362_1280.jpg"
-                lazy-src="https://cdn.pixabay.com/photo/2020/07/12/07/47/bee-5396362_1280.jpg"
-                cover
-                class="text-white"
-              >
-              </v-img>
-              <div class="card-title">Vans MN Skate Old School</div>
-              <div class="card-price-old">2.000.000 vnđ</div>
-              <div class="card-price-discount">2.000.000 vnđ</div>
-            </div>
-          </v-card-item>
+      <v-col v-for="n in 12" lg="3" md="4" sm="6" xs="12" :key="n">
+        <div class="mx-4">
+          <v-card class="card" style="margin-bottom: 20px">
+            <div v-if="discount" class="card-discount">10%</div>
+            <div v-if="discount" class="card-discount-border"></div>
+            <v-card-item>
+              <div>
+                <v-img
+                  src="https://cdn.pixabay.com/photo/2020/07/12/07/47/bee-5396362_1280.jpg"
+                  lazy-src="https://cdn.pixabay.com/photo/2020/07/12/07/47/bee-5396362_1280.jpg"
+                  cover
+                  class="text-white"
+                >
+                </v-img>
+                <div class="card-title">Vans MN Skate Old School</div>
+                <div class="card-price-old">Giá gốc: 2.000.000 đ</div>
+                <div class="card-price-discount">Giảm giá: 2.000.000 đ</div>
+              </div>
+            </v-card-item>
 
-          <div class="card-bottom">
-            <v-btn color="error"> Chi tiết </v-btn>
-          </div>
-        </v-card>
+            <div class="card-bottom">
+              <HomeProductDetail />
+            </div>
+          </v-card>
+        </div>
       </v-col>
     </v-row>
     <v-pagination v-model="page" :length="15" :total-visible="7"></v-pagination>
@@ -32,6 +33,8 @@
 </template>
 
 <script setup>
+import HomeProductDetail from "./HomeProductDetail.vue";
+
 const discount = ref(true);
 const page = ref(1);
 </script>
@@ -82,14 +85,14 @@ const page = ref(1);
 
 .card-price-old {
   padding: 4px;
-  font-size: 1rem;
+  font-size: 0.8rem;
   text-decoration: line-through;
 }
 
 .card-price-discount {
   padding: 4px;
   color: #f10000;
-  font-size: 1.2rem;
+  font-size: 1rem;
 }
 
 .card-bottom {
