@@ -2,7 +2,7 @@
   <div class="Filters-wrapper">
     <h3 class="title">Lọc sản phẩm</h3>
     <v-select
-      class="brands"
+      class="select brands"
       clearable
       v-model="brands"
       chips
@@ -13,7 +13,7 @@
     ></v-select>
 
     <v-select
-      class="sizes"
+      class="select sizes"
       clearable
       v-model="sizes"
       chips
@@ -24,6 +24,7 @@
     ></v-select>
 
     <v-select
+      class="select"
       v-model="price"
       label="Giá"
       menu-icon="mdi-currency-usd "
@@ -31,7 +32,7 @@
     ></v-select>
 
     <v-select
-      class="sale"
+      class="select sale"
       v-model="sale"
       label="Giảm giá"
       :items="dataSale"
@@ -138,9 +139,7 @@ const handleClickSearch = () => {
   }
 }
 
-.v-selection-control__input {
-  &:hover {
-    background-color: transparent !important;
-  }
+.select {
+  border-radius: 10px;
 }
 </style>

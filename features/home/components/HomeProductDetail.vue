@@ -1,10 +1,6 @@
 <template>
   <div class="text-center">
-    <v-dialog v-model="dialog" width="auto">
-      <template v-slot:activator="{ props }">
-        <v-btn color="error" v-bind="props"> Chi tiết </v-btn>
-      </template>
-
+    <v-dialog v-model="dialog" width="auto" persistent>
       <div class="dialog-wrapper">
         <v-row>
           <v-col cols="6">
@@ -51,16 +47,45 @@
             </div>
           </v-col>
         </v-row>
+        <div
+          class="btn-close"
+          @click="handleCloseDialog"
+          color="error"
+          height="40px"
+        >
+          <v-icon icon="mdi-close "></v-icon>
+        </div>
       </div>
     </v-dialog>
   </div>
 </template>
 
 <script setup>
-const dialog = ref(false);
+const props = defineProps({
+  idProduct: {
+    type: Number,
+  },
+  isShowDetail: {
+    type: Boolean,
+    default: true,
+  },
+});
+
+const emit = defineEmits(["setShowDetail"]);
+
+const dialog = ref(props.isShowDetail);
+
+watchEffect(() => {
+  dialog.value = props.isShowDetail;
+});
 
 const numberOrder = ref(0);
 const numberStorage = ref(10);
+
+const handleCloseDialog = () => {
+  dialog.value = false;
+  emit("setShowDetail");
+};
 
 const clickAdd = () => {
   if (numberStorage.value > numberOrder.value) {
@@ -81,6 +106,18 @@ const clickMinus = () => {
   background-color: white;
   padding: 20px;
   border-radius: 10px;
+  position: relative;
+
+  .btn-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: #606060;
+    cursor: pointer;
+    &:hover {
+      color: #888888;
+    }
+  }
   .dialog-img {
   }
 

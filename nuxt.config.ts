@@ -8,6 +8,7 @@ export default defineNuxtConfig({
     // ...
     "@pinia/nuxt",
   ],
+
   app: {
     head: {
       title: "VSneaker",

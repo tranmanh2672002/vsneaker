@@ -1,42 +1,113 @@
 <template>
   <v-container class="bg-surface-variant mb-6">
     <v-row align="start" no-gutters>
-      <v-col v-for="n in 12" lg="3" md="4" sm="6" xs="12" :key="n">
+      <v-col
+        v-for="product in products"
+        lg="3"
+        md="4"
+        sm="6"
+        xs="12"
+        :key="product.ID"
+      >
         <div class="mx-4">
           <v-card class="card" style="margin-bottom: 20px">
-            <div v-if="discount" class="card-discount">10%</div>
-            <div v-if="discount" class="card-discount-border"></div>
+            <div v-if="product.Discount_percent !== 0" class="card-discount">
+              {{ product.Discount_percent }}%
+            </div>
+            <div
+              v-if="product.Discount_percent !== 0"
+              class="card-discount-border"
+            ></div>
             <v-card-item>
               <div>
                 <v-img
-                  src="https://cdn.pixabay.com/photo/2020/07/12/07/47/bee-5396362_1280.jpg"
-                  lazy-src="https://cdn.pixabay.com/photo/2020/07/12/07/47/bee-5396362_1280.jpg"
+                  :src="product.Product_IMG"
+                  :lazy-src="product.Product_IMG"
                   cover
                   class="text-white"
                 >
                 </v-img>
-                <div class="card-title">Vans MN Skate Old School</div>
-                <div class="card-price-old">Giá gốc: 2.000.000 đ</div>
-                <div class="card-price-discount">Giảm giá: 2.000.000 đ</div>
+                <div class="card-title">{{ product.Product_name }}</div>
+                <div class="card-price-old">
+                  Giá gốc: {{ formatNumber(product.Price) }} đ
+                </div>
+                <div class="card-price-discount">
+                  Giảm giá:
+                  {{
+                    formatNumber(
+                      product.Price -
+                        (product.Price * product.Discount_percent) / 100
+                    )
+                  }}
+                  đ
+                </div>
               </div>
             </v-card-item>
 
             <div class="card-bottom">
-              <HomeProductDetail />
+              <v-btn color="error" @click="handelShowDetailProduct(product.ID)">
+                Chi tiết
+              </v-btn>
             </div>
           </v-card>
         </div>
       </v-col>
     </v-row>
-    <v-pagination v-model="page" :length="15" :total-visible="7"></v-pagination>
+    <v-pagination
+      v-model="page"
+      :length="6"
+      :total-visible="6"
+      @next="handleClickNext"
+      @prev="handleClickPrev"
+    ></v-pagination>
   </v-container>
+  <HomeProductDetail
+    :isShowDetail="isShowDetail"
+    :id-product="currIdProduct"
+    @setShowDetail="handleCloseShowDetail"
+  />
 </template>
 
 <script setup>
 import HomeProductDetail from "./HomeProductDetail.vue";
 
-const discount = ref(true);
 const page = ref(1);
+const isShowDetail = ref(false);
+const currIdProduct = ref(0);
+
+const { data: value, refresh } = await useAsyncData("products", () =>
+  $fetch(`http://localhost:8000/product/show?offset=${page.value - 1}`)
+);
+
+const products = ref(value);
+
+const handleClickNext = () => {
+  console.log(page.value);
+  refresh();
+  window.scrollTo({ top: 600, behavior: "smooth" });
+};
+
+const handleClickPrev = () => {
+  console.log(page.value);
+  refresh();
+  window.scrollTo({ top: 600, behavior: "smooth" });
+};
+
+const formatNumber = (value) => {
+  const formattedNumber = value.toLocaleString("vi-VN");
+  return formattedNumber;
+};
+
+const handelShowDetailProduct = (id) => {
+  isShowDetail.value = true;
+  currIdProduct.value = id;
+  console.log(isShowDetail.value);
+};
+
+const handleCloseShowDetail = () => {
+  isShowDetail.value = false;
+  console.log(isShowDetail.value);
+};
 </script>
 
 <style lang="scss" scoped>
@@ -44,6 +115,7 @@ const page = ref(1);
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
+  scroll-behavior: smooth;
 }
 
 .card {
@@ -61,6 +133,7 @@ const page = ref(1);
     height: 44px;
     color: #f10000;
     font-size: 1.2rem;
+    text-align: center;
     background-color: yellow;
     padding: 8px 4px;
     z-index: 10;
@@ -77,10 +150,13 @@ const page = ref(1);
 }
 
 .card-title {
-  padding: 10px 0;
+  padding: 16px 0;
   text-align: left;
   font-size: 1rem;
   font-weight: bold;
+  height: 68px;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .card-price-old {
