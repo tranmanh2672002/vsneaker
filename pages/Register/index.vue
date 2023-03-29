@@ -36,8 +36,25 @@ definePageMeta({
 const username = ref("");
 const password = ref("");
 
-const handleClickRegister = () => {
-  console.log(123);
+const handleClickRegister = async () => {
+  if (username.value === "" || password.value === "") return;
+  const newUser = {
+    username: username.value,
+    password: password.value,
+  };
+  const data = await useAsyncData("register", () =>
+    $fetch("http://localhost:8000/user/register", {
+      method: "POST",
+      body: newUser,
+    })
+  );
+  console.log(data.data.value.register);
+  if (data.data.value.register) {
+    navigateTo("/login");
+    alert("Please login");
+  } else {
+    alert("User already registered");
+  }
 };
 </script>
 

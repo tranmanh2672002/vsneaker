@@ -2,36 +2,47 @@
   <div class="Filters-wrapper">
     <h3 class="title">Lọc sản phẩm</h3>
     <v-select
-      class="brands"
+      class="select brands"
       clearable
       v-model="brands"
       chips
       label="Thương hiệu"
       :items="dataBrands"
+      menu-icon="mdi-chevron-down "
       multiple
     ></v-select>
 
     <v-select
-      class="sizes"
+      class="select sizes"
       clearable
       v-model="sizes"
       chips
       label="Size"
       :items="dataSizes"
+      menu-icon="mdi-chevron-down "
       multiple
     ></v-select>
 
-    <v-select v-model="price" label="Giá" :items="dataPrices"></v-select>
+    <v-select
+      class="select"
+      v-model="price"
+      label="Giá"
+      menu-icon="mdi-currency-usd "
+      :items="dataPrices"
+    ></v-select>
 
     <v-select
-      class="sale"
+      class="select sale"
       v-model="sale"
       label="Giảm giá"
       :items="dataSale"
+      menu-icon="mdi-sale-outline "
       multiple
     ></v-select>
 
-    <v-btn color="black" @click="handleClickSearch">Tìm kiếm</v-btn>
+    <v-btn prepend-icon="mdi-magnify " color="black" @click="handleClickSearch"
+      >Tìm kiếm</v-btn
+    >
   </div>
 </template>
 
@@ -128,9 +139,7 @@ const handleClickSearch = () => {
   }
 }
 
-.v-selection-control__input {
-  &:hover {
-    background-color: transparent !important;
-  }
+.select {
+  border-radius: 10px;
 }
 </style>

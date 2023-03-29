@@ -39,12 +39,28 @@ const { setUser } = userStore;
 const username = ref("");
 const password = ref("");
 
-const handleClickLogin = () => {
-  setUser({
-    username: username,
-    isLogin: true,
-  });
-  navigateTo("/");
+const handleClickLogin = async () => {
+  if (username.value == "" || password.value == "") return;
+  const user = {
+    username: username.value,
+    password: password.value,
+  };
+  const data = await useAsyncData("login", () =>
+    $fetch("http://localhost:8000/user/login", {
+      method: "POST",
+      body: user,
+    })
+  );
+  if (data.data.value.login) {
+    const user = data.data.value.profile;
+    setUser({
+      username: user[0].Username,
+      isLogin: true,
+    });
+    navigateTo("/");
+  } else {
+    alert("Login failed");
+  }
 };
 </script>
 
