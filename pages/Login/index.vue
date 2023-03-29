@@ -56,6 +56,7 @@ const handleClickLogin = async () => {
     setUser({
       username: user[0].Username,
       isLogin: true,
+      id: user[0].ID,
     });
     navigateTo("/");
   } else {

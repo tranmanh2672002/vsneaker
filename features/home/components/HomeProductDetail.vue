@@ -6,8 +6,8 @@
           <v-col cols="6">
             <div class="dialog-img">
               <v-img
-                src="https://cdn.pixabay.com/photo/2020/07/12/07/47/bee-5396362_1280.jpg"
-                lazy-src="https://cdn.pixabay.com/photo/2020/07/12/07/47/bee-5396362_1280.jpg"
+                :src="productDetail.Product_IMG"
+                :lazy-src="productDetail.Product_IMG"
                 cover
               ></v-img>
             </div>
@@ -36,14 +36,10 @@
             </div>
           </v-col>
           <v-col cols="6">
-            <span class="dialog-title">Vans MN Skate Old School</span>
+            <span class="dialog-title">{{ productDetail.Product_name }}</span>
 
             <div class="dialog-description">
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-              Voluptates error, saepe repellendus quidem accusantium odit
-              placeat non recusandae neque impedit? neque impedit? neque
-              impedit?neque impedit? neque impedit? neque impedit? neque
-              impedit? neque impedit?
+              {{ productDetail.Description }}
             </div>
           </v-col>
         </v-row>
@@ -75,8 +71,15 @@ const emit = defineEmits(["setShowDetail"]);
 
 const dialog = ref(props.isShowDetail);
 
-watchEffect(() => {
+const productDetail = ref();
+
+watchEffect(async () => {
   dialog.value = props.isShowDetail;
+  const { data } = await useAsyncData("product-detail", () =>
+    $fetch(`http://localhost:8000/product/${props.idProduct}`)
+  );
+
+  productDetail.value = data.value[0];
 });
 
 const numberOrder = ref(0);
@@ -123,9 +126,9 @@ const clickMinus = () => {
 
   .dialog-title {
     display: block;
-    margin-bottom: 4px;
-    font-size: 1.4rem;
-    font-weight: 600;
+    margin-bottom: 10px;
+    font-size: 1.6rem;
+    font-weight: 500;
   }
   .dialog-description {
     font-size: 1.2rem;
