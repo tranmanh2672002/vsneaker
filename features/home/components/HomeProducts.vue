@@ -2,7 +2,7 @@
   <v-container class="bg-surface-variant mb-6">
     <v-row align="start" no-gutters>
       <v-col
-        v-for="product in products"
+        v-for="product in listProducts"
         lg="3"
         md="4"
         sm="6"
@@ -55,10 +55,9 @@
     </v-row>
     <v-pagination
       v-model="page"
-      :length="6"
+      :length="lengthPage"
       :total-visible="6"
-      @next="handleClickNext"
-      @prev="handleClickPrev"
+      @update:model-value="handleClickUpdate"
     ></v-pagination>
   </v-container>
   <HomeProductDetail
@@ -70,26 +69,26 @@
 
 <script setup>
 import HomeProductDetail from "./HomeProductDetail.vue";
+import { useProductStore } from "../store/productStore";
 
 const page = ref(1);
 const isShowDetail = ref(false);
 const currIdProduct = ref(0);
 
-const { data: value, refresh } = await useAsyncData("products", () =>
-  $fetch(`http://localhost:8000/product/show?offset=${page.value - 1}`)
-);
+const productStore = useProductStore();
+const { products, pages, setProducts, setPages, getProducts } = productStore;
+const listProducts = ref(products);
+const lengthPage = ref(10);
 
-const products = ref(value);
+getProducts(page.value);
 
-const handleClickNext = () => {
-  console.log(page.value);
-  refresh();
-  window.scrollTo({ top: 600, behavior: "smooth" });
-};
+watch(page, async (currPage) => {
+  const data = await getProducts(currPage);
+  listProducts.value = data.products;
+  lengthPage.value = data.pages;
+});
 
-const handleClickPrev = () => {
-  console.log(page.value);
-  refresh();
+const handleClickUpdate = async () => {
   window.scrollTo({ top: 600, behavior: "smooth" });
 };
 
@@ -101,12 +100,10 @@ const formatNumber = (value) => {
 const handelShowDetailProduct = (id) => {
   isShowDetail.value = true;
   currIdProduct.value = id;
-  console.log(isShowDetail.value);
 };
 
 const handleCloseShowDetail = () => {
   isShowDetail.value = false;
-  console.log(isShowDetail.value);
 };
 </script>
 

@@ -4,6 +4,7 @@ export const useUserStore = defineStore('user', () => {
     const user = ref({
         username: '',
         isLogin: false,
+        id: ''
     });
 
     const setUser = (data) => {
