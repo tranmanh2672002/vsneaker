@@ -10,6 +10,7 @@ export const useUserStore = defineStore('user', () => {
     const setUser = (data) => {
         user.value.username = data.username;
         user.value.isLogin = data.isLogin;
+        user.value.id = data.id;
     }
 
 

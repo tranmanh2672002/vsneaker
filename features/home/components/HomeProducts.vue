@@ -71,22 +71,30 @@
 import HomeProductDetail from "./HomeProductDetail.vue";
 import { useProductStore } from "../store/productStore";
 
-const page = ref(1);
 const isShowDetail = ref(false);
 const currIdProduct = ref(0);
 
 const productStore = useProductStore();
-const { products, pages, setProducts, setPages, getProducts } = productStore;
-const listProducts = ref(products);
-const lengthPage = ref(10);
+const page = ref(productStore.currPage);
 
-getProducts(page.value);
+productStore.getProducts();
+const listProducts = ref(productStore.products);
+const lengthPage = ref(60);
 
 watch(page, async (currPage) => {
-  const data = await getProducts(currPage);
-  listProducts.value = data.products;
-  lengthPage.value = data.pages;
+  productStore.setCurrPage(currPage);
+  const data = await productStore.getProducts();
 });
+
+watch(
+  () => productStore.products,
+  async () => {
+    const data = await productStore.getProducts();
+    listProducts.value = data.products;
+    lengthPage.value = data.pages;
+    page.value = productStore.currPage;
+  }
+);
 
 const handleClickUpdate = async () => {
   window.scrollTo({ top: 600, behavior: "smooth" });
