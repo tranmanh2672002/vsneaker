@@ -119,7 +119,6 @@ const handleClickSearch = async () => {
     price: priceValue,
     sale: sale.value.length !== 0 ? true : false,
   };
-  console.log(dataFilters);
   productStore.setFilter(dataFilters);
   productStore.setCurrPage(1);
   productStore.getProducts(1);

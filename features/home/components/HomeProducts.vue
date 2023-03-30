@@ -27,7 +27,9 @@
                   class="text-white"
                 >
                 </v-img>
-                <div class="card-title">{{ product.Product_name }}</div>
+                <div class="card-title">
+                  {{ product.Product_name + " " + product.Sku }}
+                </div>
                 <div class="card-price-old">
                   Giá gốc: {{ formatNumber(product.Price) }} đ
                 </div>
