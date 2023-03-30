@@ -3,6 +3,27 @@ import { defineStore } from 'pinia'
 export const useProductStore = defineStore('products', () => {
     const products = ref([]);
     const pages = ref(0);
+    const filter = ref(
+        {
+            sizes: [],
+            brands: [],
+            sale: false,
+            price: null,
+        }
+    );
+    const currPage = ref(1);
+
+    const setFilter = (data) => {
+        filter.value = data;
+    }
+
+    const setCurrPage = (data) => {
+        currPage.value = data;
+    }
+
+    const resetFilter = () => {
+        filter.value = null;
+    }
 
     const setProducts = (data) => {
         products.value = data
@@ -12,17 +33,21 @@ export const useProductStore = defineStore('products', () => {
         pages.value = data
     }
 
-    const getProducts = async (page) => {
+    const getProducts = async () => {
         const { data: productsData } = await useAsyncData("products", () =>
-            $fetch(`http://localhost:8000/product/show?offset=${page - 1}`)
+            $fetch(`http://localhost:8000/product/filter?offset=${currPage.value - 1}`, {
+                method: "POST",
+                body: filter.value,
+            })
         );
+        // console.log(productsData.value);
         setProducts(productsData.value.products);
-        setPages(productsData.value.count);
+        setPages(productsData.value.countPage);
         return {
             products: productsData.value.products,
-            pages: productsData.value.count,
+            pages: productsData.value.countPage,
         };
     }
 
-    return { products, pages, setProducts, setPages, getProducts }
+    return { products, pages, filter, currPage, setCurrPage, setProducts, setPages, getProducts, setFilter, resetFilter }
 })
