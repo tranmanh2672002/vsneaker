@@ -6,8 +6,8 @@
           <v-col cols="6">
             <div class="dialog-img">
               <v-img
-                :src="productDetail.Product_IMG"
-                :lazy-src="productDetail.Product_IMG"
+                :src="productDetail?.Product_IMG"
+                :lazy-src="productDetail?.Product_IMG"
                 cover
               ></v-img>
             </div>
@@ -36,10 +36,23 @@
             </div>
           </v-col>
           <v-col cols="6">
-            <span class="dialog-title">{{ productDetail.Product_name }}</span>
+            <span class="dialog-title">{{
+              productDetail?.Product_name + "" + productDetail?.Sku
+            }}</span>
 
             <div class="dialog-description">
-              {{ productDetail.Description }}
+              {{ productDetail?.Description }}
+            </div>
+            <div class="size">
+              <v-btn-toggle v-model="size" mandatory>
+                <v-btn
+                  @click="setSizeStorage"
+                  class="btn"
+                  v-for="size in sizes"
+                >
+                  {{ size?.Size }}
+                </v-btn>
+              </v-btn-toggle>
             </div>
           </v-col>
         </v-row>
@@ -67,11 +80,16 @@ const props = defineProps({
   },
 });
 
+const size = ref();
+
 const emit = defineEmits(["setShowDetail"]);
 
 const dialog = ref(props.isShowDetail);
 
 const productDetail = ref();
+const sizes = ref();
+const numberOrder = ref(0);
+const numberStorage = ref(0);
 
 watchEffect(async () => {
   dialog.value = props.isShowDetail;
@@ -79,11 +97,10 @@ watchEffect(async () => {
     $fetch(`http://localhost:8000/product/${props.idProduct}`)
   );
 
-  productDetail.value = data.value[0];
+  productDetail.value = data.value.detail;
+  sizes.value = data.value.sizes;
+  console.log(sizes.value);
 });
-
-const numberOrder = ref(0);
-const numberStorage = ref(10);
 
 const handleCloseDialog = () => {
   dialog.value = false;
@@ -101,11 +118,16 @@ const clickMinus = () => {
     numberOrder.value = numberOrder.value - 1;
   }
 };
+
+const setSizeStorage = () => {
+  numberStorage.value = sizes.value[size.value].Quantity;
+  console.log(numberStorage.value);
+};
 </script>
 
 <style lang="scss" scoped>
 .dialog-wrapper {
-  width: 800px;
+  width: 640px;
   background-color: white;
   padding: 20px;
   border-radius: 10px;
@@ -127,7 +149,7 @@ const clickMinus = () => {
   .dialog-title {
     display: block;
     margin-bottom: 10px;
-    font-size: 1.6rem;
+    font-size: 1.4rem;
     font-weight: 500;
   }
   .dialog-description {
@@ -169,6 +191,21 @@ const clickMinus = () => {
     box-shadow: 0px 3px 1px -2px var(--v-shadow-key-umbra-opacity, rgba(0, 0, 0, 0.2)),
       0px 2px 2px 0px var(--v-shadow-key-penumbra-opacity, rgba(0, 0, 0, 0.14)),
       0px 1px 5px 0px var(--v-shadow-key-penumbra-opacity, rgba(0, 0, 0, 0.12));
+  }
+
+  .size {
+    ::v-deep .v-btn-group {
+      flex-wrap: wrap;
+      height: 100px;
+      .v-btn {
+        max-height: 50px;
+      }
+    }
+    margin-top: 20px;
+    .btn {
+      width: 40px;
+      height: 40px;
+    }
   }
 }
 </style>

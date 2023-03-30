@@ -40,7 +40,6 @@ export const useProductStore = defineStore('products', () => {
                 body: filter.value,
             })
         );
-        // console.log(productsData.value);
         setProducts(productsData.value.products);
         setPages(productsData.value.countPage);
         return {
