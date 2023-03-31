@@ -23,6 +23,12 @@
           >
         </div>
       </v-form>
+      <div class="loading" v-if="loading">
+        <v-progress-circular
+          indeterminate
+          color="primary"
+        ></v-progress-circular>
+      </div>
     </v-sheet>
   </div>
 </template>
@@ -38,9 +44,14 @@ const { setUser } = userStore;
 
 const username = ref("");
 const password = ref("");
+const loading = ref(false);
 
 const handleClickLogin = async () => {
-  if (username.value == "" || password.value == "") return;
+  loading.value = true;
+  if (username.value == "" || password.value == "") {
+    loading.value = false;
+    return;
+  }
   const user = {
     username: username.value,
     password: password.value,
@@ -58,10 +69,15 @@ const handleClickLogin = async () => {
       isLogin: true,
       id: user[0].ID,
     });
+    console.log(user);
+    if (user[0].User_type === "admin") {
+      navigateTo("/");
+    }
     navigateTo("/");
   } else {
     alert("Login failed");
   }
+  loading.value = false;
 };
 </script>
 
@@ -84,5 +100,10 @@ const handleClickLogin = async () => {
   width: 100px;
   text-decoration: none;
   margin-top: 20px;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
 }
 </style>

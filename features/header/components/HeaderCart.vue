@@ -5,26 +5,36 @@
     </v-badge>
     <div v-if="showCart" class="border-triangle"></div>
     <div v-if="showCart" class="cart-products">
-      <!-- <div class="cart-noProduct">
+      <div class="cart-noProduct" v-if="!userStore.userCart?.length">
         <v-img class="img" width="50%" :src="NoProduct" cover></v-img>
         <span class="text">Không có sản phẩm</span>
-      </div> -->
-      <div class="cart-wrapper">
+      </div>
+      <div class="cart-wrapper" v-else>
         <h1 class="cart-title">Sản phẩm của bạn</h1>
         <div class="cart-lists">
-          <div class="cart-item" v-for="item in 8" :key="item">
+          <div class="cart-item" v-for="product in products" :key="product.ID">
             <div class="cart-thumbnail">
-              <v-img class="img" width="60px" :src="NoProduct" cover></v-img>
+              <v-img
+                class="img"
+                width="60px"
+                :src="product?.Product_IMG"
+                :lazy-src="product?.Product_IMG"
+                cover
+              ></v-img>
             </div>
             <div class="cart-content">
-              <h4 class="cart-content-title">Vans MN Skate Old School</h4>
+              <h4 class="cart-content-title">
+                {{ product?.Product_name }}
+              </h4>
               <div class="cart-content-bottom">
                 <div style="display: flex; align-items: center">
                   <div class="cart-content-price">
                     Giá:
-                    <span>2.000.000đ</span>
+                    {{ formatNumber(product?.Amount) }}
                   </div>
-                  <div class="cart-content-amount">SL: <span>3</span></div>
+                  <div class="cart-content-amount">
+                    SL: <span>{{ product?.Quantity }}</span>
+                  </div>
                 </div>
                 <div class="cart-content-delete">xóa</div>
               </div>
@@ -32,7 +42,9 @@
           </div>
         </div>
         <div class="cart-addToCart">
-          <v-btn color="error" size="small">Thanh toán</v-btn>
+          <v-btn @click="navigateTo('/payment')" color="error" size="small"
+            >Thanh toán</v-btn
+          >
         </div>
       </div>
     </div>
@@ -44,13 +56,25 @@ import NoProduct from "../../../assets/images/noProduct.png";
 import { useUserStore } from "~~/store/userStore";
 
 const userStore = useUserStore();
-const { user } = userStore;
 const showCart = ref(false);
+const products = ref([]);
+
+if (userStore.user?.id) {
+  userStore.getDataCart();
+}
+
 const handleClickShowCart = () => {
-  if (!user?.isLogin) {
+  // console.log(userStore.userCart);
+  products.value = userStore.userCart;
+  if (!userStore.user?.isLogin) {
     navigateTo("/login");
   }
   showCart.value = !showCart.value;
+};
+
+const formatNumber = (value) => {
+  const formattedNumber = value.toLocaleString("vi-VN");
+  return formattedNumber;
 };
 </script>
 
@@ -129,6 +153,8 @@ const handleClickShowCart = () => {
             .cart-content-delete {
               color: #e91717;
               margin: 0 20px;
+              cursor: pointer;
+
               &:hover {
                 opacity: 0.8;
                 text-decoration: underline;

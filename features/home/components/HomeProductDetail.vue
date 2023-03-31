@@ -31,14 +31,10 @@
               </div>
               <div class="dialog-amount">SL: {{ numberStorage }}</div>
             </div>
-            <div>
-              <v-btn color="error" height="40px">Thêm giỏ hàng</v-btn>
-            </div>
           </v-col>
           <v-col cols="6">
-            <span class="dialog-title">{{
-              productDetail?.Product_name + "" + productDetail?.Sku
-            }}</span>
+            <span class="dialog-title">{{ productDetail?.Product_name }}</span>
+            <span class="dialog-sku">{{ productDetail?.Sku }}</span>
 
             <div class="dialog-description">
               {{ productDetail?.Description }}
@@ -56,6 +52,11 @@
             </div>
           </v-col>
         </v-row>
+        <div style="display: flex; justify-content: center">
+          <v-btn @click="handleClickAddToCart" color="error" height="40px"
+            >Thêm giỏ hàng</v-btn
+          >
+        </div>
         <div
           class="btn-close"
           @click="handleCloseDialog"
@@ -70,6 +71,10 @@
 </template>
 
 <script setup>
+import { useUserStore } from "~~/store/userStore";
+
+const userStore = useUserStore();
+
 const props = defineProps({
   idProduct: {
     type: Number,
@@ -97,9 +102,8 @@ watchEffect(async () => {
     $fetch(`http://localhost:8000/product/${props.idProduct}`)
   );
 
-  productDetail.value = data.value.detail;
-  sizes.value = data.value.sizes;
-  console.log(sizes.value);
+  productDetail.value = data.value?.detail;
+  sizes.value = data.value?.sizes;
 });
 
 const handleCloseDialog = () => {
@@ -121,7 +125,35 @@ const clickMinus = () => {
 
 const setSizeStorage = () => {
   numberStorage.value = sizes.value[size.value].Quantity;
-  console.log(numberStorage.value);
+};
+
+const handleClickAddToCart = async () => {
+  if (!userStore.user?.isLogin) {
+    navigateTo("/login");
+    return;
+  }
+  if (numberOrder.value > 0) {
+    const newProduct = {
+      productId: props.idProduct,
+      size: sizes.value[size.value]?.Size,
+      quantity: numberOrder.value,
+    };
+    // console.log(newProduct);
+    const data = await useAsyncData("addToCart", () =>
+      $fetch(`http://localhost:8000/cart/${userStore.user.id}/add-to-cart`, {
+        method: "POST",
+        body: newProduct,
+      })
+    );
+    if (data.data.value?.add) {
+      userStore.getDataCart();
+      dialog.value = false;
+      emit("setShowDetail");
+    }
+  } else {
+    alert("Please select number order");
+  }
+  numberOrder.value = 0;
 };
 </script>
 
@@ -148,12 +180,19 @@ const setSizeStorage = () => {
 
   .dialog-title {
     display: block;
+    margin-bottom: 4px;
+    font-size: 1.2rem;
+    font-weight: 500;
+  }
+
+  .dialog-sku {
+    display: block;
     margin-bottom: 10px;
-    font-size: 1.4rem;
+    font-size: 1.2rem;
     font-weight: 500;
   }
   .dialog-description {
-    font-size: 1.2rem;
+    font-size: 1rem;
     color: rgb(71, 71, 71);
     line-height: 24px;
     height: 120px;

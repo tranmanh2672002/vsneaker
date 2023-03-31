@@ -40,11 +40,11 @@ export const useProductStore = defineStore('products', () => {
                 body: filter.value,
             })
         );
-        setProducts(productsData.value.products);
-        setPages(productsData.value.countPage);
+        setProducts(productsData.value?.products);
+        setPages(productsData.value?.countPage);
         return {
-            products: productsData.value.products,
-            pages: productsData.value.countPage,
+            products: productsData.value?.products,
+            pages: productsData.value?.countPage,
         };
     }
 
