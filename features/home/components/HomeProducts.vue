@@ -28,13 +28,16 @@
                 >
                 </v-img>
                 <div class="card-title">
-                  {{ product.Product_name + " " + product.Sku }}
+                  {{ product.Product_name }}
+                </div>
+                <div class="card-sku">
+                  {{ product.Sku }}
                 </div>
                 <div class="card-price-old">
                   Giá gốc: {{ formatNumber(product.Price) }} đ
                 </div>
                 <div class="card-price-discount">
-                  Giảm giá:
+                  Giá:
                   {{
                     formatNumber(
                       product.Price -
@@ -157,11 +160,18 @@ const handleCloseShowDetail = () => {
 }
 
 .card-title {
-  padding: 16px 0;
   text-align: left;
-  font-size: 1rem;
+  font-size: 0.9rem;
   font-weight: bold;
-  height: 68px;
+  height: 44px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.card-sku {
+  text-align: left;
+  font-size: 0.9rem;
+  font-weight: bold;
   overflow: hidden;
   text-overflow: ellipsis;
 }
