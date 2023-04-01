@@ -1,7 +1,10 @@
 <template>
   <div class="wrapper">
     <div class="cart-wrapper">
-      <h1 class="cart-title">Sản phẩm của bạn</h1>
+      <div class="cart-header">
+        <h1 class="cart-title">Sản phẩm của bạn</h1>
+        <h1 class="cart-title">Tổng: {{ formatNumber(total) }}</h1>
+      </div>
       <div class="cart-lists">
         <div class="cart-item" v-for="product in productList" :key="item">
           <div class="cart-thumbnail">
@@ -21,9 +24,13 @@
                   Giá:
                   <span>{{ product?.Amount }}đ</span>
                 </div>
-                <div class="cart-content-amount">SL: <span>3</span></div>
+                <div class="cart-content-amount">
+                  SL: <span>{{ product?.Quantity }}</span>
+                </div>
               </div>
-              <div class="cart-content-delete">xóa</div>
+              <div class="cart-content-delete">
+                <ConfirmDelete :id="product?.cartItemId.toString()" />
+              </div>
             </div>
           </div>
         </div>
@@ -33,16 +40,35 @@
 </template>
 
 <script setup>
+import ConfirmDelete from "~~/features/header/components/ConfirmDelete.vue";
 import { useUserStore } from "../../../store/userStore";
 
 const userStore = useUserStore();
-const productList = ref(userStore.userCart);
+const productList = computed(() => {
+  return userStore.userCart;
+});
+const total = computed(() => {
+  let x = 0;
+  userStore.userCart.map((item) => {
+    x = x + item.Unit_Price * item.Quantity;
+  });
+  return x;
+});
+
+const formatNumber = (value) => {
+  return value.toLocaleString("vi-VN", { style: "currency", currency: "VND" });
+};
 </script>
 
 <style lang="scss" scoped>
 .wrapper {
   color: #444;
   .cart-wrapper {
+    .cart-header {
+      display: flex;
+      justify-content: space-between;
+      padding: 0 4px;
+    }
     .cart-title {
       font-size: 1.2rem;
       font-weight: 400;
