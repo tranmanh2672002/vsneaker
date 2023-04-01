@@ -28,7 +28,7 @@
         <div class="item-title">Địa chỉ</div>
         <v-text-field
           variant="underlined"
-          placeholder="Nhập Địa chỉ giao hàng"
+          placeholder="Nhập địa chỉ giao hàng"
           class="item-input"
           clearable
           label=""

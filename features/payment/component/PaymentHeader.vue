@@ -1,5 +1,12 @@
 <template>
   <div class="wrapper">
+    <div class="back">
+      <v-btn
+        @click="navigateTo('/')"
+        color="black"
+        icon="mdi-chevron-left "
+      ></v-btn>
+    </div>
     <div class="title">Thanh toán</div>
     <div class="Header-logo">
       <img :src="logo" alt="logo" />
@@ -20,6 +27,11 @@ import logo from "../../../assets/images/Footer-logo.png";
   align-items: center;
   justify-content: center;
   background-color: #f6f6f6;
+  position: relative;
+  .back {
+    position: absolute;
+    left: 20px;
+  }
   .title {
     font-size: 2.4rem;
     font-weight: 600;

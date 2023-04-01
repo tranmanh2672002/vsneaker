@@ -50,6 +50,7 @@
                 </v-btn>
               </v-btn-toggle>
             </div>
+            <div class="price">Giá: {{ productDetail?.Price }} đ</div>
           </v-col>
         </v-row>
         <div style="display: flex; justify-content: center">
@@ -211,6 +212,11 @@ const handleClickAddToCart = async () => {
   .dialog-groupBtn {
     display: flex;
     align-items: center;
+  }
+
+  .price {
+    color: rgb(201, 12, 12);
+    padding: 10px 0;
   }
 
   .dialog-btn {

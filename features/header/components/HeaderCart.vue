@@ -36,7 +36,9 @@
                     SL: <span>{{ product?.Quantity }}</span>
                   </div>
                 </div>
-                <div class="cart-content-delete">xóa</div>
+                <div class="cart-content-delete">
+                  <ConfirmDelete :id="product?.cartItemId.toString()" />
+                </div>
               </div>
             </div>
           </div>
@@ -54,18 +56,23 @@
 <script setup>
 import NoProduct from "../../../assets/images/noProduct.png";
 import { useUserStore } from "~~/store/userStore";
+import ConfirmDelete from "./ConfirmDelete.vue";
 
 const userStore = useUserStore();
 const showCart = ref(false);
-const products = ref([]);
+// const products = ref([]);
 
 if (userStore.user?.id) {
   userStore.getDataCart();
 }
 
+// products.value = userStore.userCart;
+const products = computed(() => {
+  return userStore.userCart;
+});
+
 const handleClickShowCart = () => {
   // console.log(userStore.userCart);
-  products.value = userStore.userCart;
   if (!userStore.user?.isLogin) {
     navigateTo("/login");
   }

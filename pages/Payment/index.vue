@@ -30,7 +30,7 @@ definePageMeta({
 }
 .content {
   margin: 0 100px;
-  padding: 10px 20px;
+  padding: 30px 20px;
   background-color: #f6f6f6;
 }
 
