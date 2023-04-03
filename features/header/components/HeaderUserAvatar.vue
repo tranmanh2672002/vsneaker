@@ -10,9 +10,13 @@
     <v-btn @click="showLogOut" class="Header-user-btn" icon="mdi-account">
     </v-btn>
     <div v-if="isShowLogOut" class="logout">
+      <div @click="navigateTo('/order')" class="content">
+        <v-icon icon="mdi-cart-variant  "></v-icon>
+        Sản phẩm đã đặt
+      </div>
       <div @click="handleLogout" class="content">
         <v-icon icon="mdi-logout "></v-icon>
-        Log out
+        Đăng xuất
       </div>
     </div>
     <div v-if="isShowLogOut" class="border-triangle"></div>
@@ -51,13 +55,14 @@ const handleClickLogin = () => {
   position: relative;
   .logout {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     position: absolute;
     top: calc(100% + 16px);
     right: 0;
-    width: 120px;
-    height: 44px;
+    width: 220px;
+    // height: 44px;
     background-color: white;
     color: black;
     padding: 4px;

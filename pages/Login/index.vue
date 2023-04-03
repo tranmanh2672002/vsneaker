@@ -71,9 +71,10 @@ const handleClickLogin = async () => {
     });
     console.log(user);
     if (user[0].User_type === "admin") {
+      navigateTo("/admin");
+    } else {
       navigateTo("/");
     }
-    navigateTo("/");
   } else {
     alert("Login failed");
   }

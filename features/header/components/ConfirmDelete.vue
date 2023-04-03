@@ -5,7 +5,7 @@
     </template>
     <div class="delete-wrapper">
       <div class="delete-content">
-        <h4 class="delete-content-title">Are you want delete user?</h4>
+        <h4 class="delete-content-title">Are you want delete product?</h4>
       </div>
       <div class="delete-groupBtn">
         <v-btn @click="handleClickDelete" class="delete-btn" color="primary">
