@@ -50,7 +50,14 @@
                 </v-btn>
               </v-btn-toggle>
             </div>
-            <div class="price">Giá: {{ productDetail?.Price }} đ</div>
+            <div class="price">
+              Giá:
+              {{
+                productDetail?.Price -
+                (productDetail?.Price * productDetail?.Discount_percent) / 100
+              }}
+              đ
+            </div>
           </v-col>
         </v-row>
         <div style="display: flex; justify-content: center">
@@ -104,6 +111,7 @@ watchEffect(async () => {
   );
 
   productDetail.value = data.value?.detail;
+  console.log(productDetail.value);
   sizes.value = data.value?.sizes;
 });
 
@@ -239,7 +247,7 @@ const handleClickAddToCart = async () => {
   }
 
   .size {
-    ::v-deep .v-btn-group {
+    :deep(.v-btn-group) {
       flex-wrap: wrap;
       height: 100px;
       .v-btn {

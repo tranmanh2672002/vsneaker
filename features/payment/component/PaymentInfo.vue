@@ -5,6 +5,7 @@
       <div class="item">
         <div class="item-title">Tên</div>
         <v-text-field
+          v-model="name"
           variant="underlined"
           placeholder="Nhập tên của bạn"
           round="4"
@@ -16,6 +17,7 @@
       <div class="item">
         <div class="item-title">SĐT</div>
         <v-text-field
+          v-model="phone"
           variant="underlined"
           placeholder="Nhập SĐT của bạn"
           class="item-input"
@@ -27,6 +29,7 @@
       <div class="item">
         <div class="item-title">Địa chỉ</div>
         <v-text-field
+          v-model="address"
           variant="underlined"
           placeholder="Nhập địa chỉ giao hàng"
           class="item-input"
@@ -35,20 +38,67 @@
         ></v-text-field>
       </div>
       <div class="item">
-        <div class="item-title">Ghi chú</div>
-        <v-text-field
+        <div class="item-title">Vận chuyển</div>
+        <v-select
+          v-model="shipping"
+          :items="[
+            'Giao hàng tiết kiệm',
+            'Giao hàng nhanh',
+            'Giao hàng hỏa tốc',
+          ]"
           variant="underlined"
-          placeholder="Ghi chú"
-          class="item-input"
-          clearable
-          label=""
-        ></v-text-field>
+        ></v-select>
       </div>
     </div>
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+import { usePaymentStore } from "../../../pages/Payment/paymentStore";
+const paymentStore = usePaymentStore();
+
+const name = ref("");
+const phone = ref("");
+const address = ref("");
+const shipping = ref("");
+
+const onChangeInfo = () => {
+  let ship = 0;
+  switch (shipping.value) {
+    case "Giao hàng tiết kiệm":
+      ship = 1;
+      break;
+    case "Giao hàng nhanh":
+      ship = 2;
+      break;
+    case "Giao hàng hỏa tốc":
+      ship = 3;
+      break;
+    default:
+      ship = 0;
+      break;
+  }
+  paymentStore.setInfo({
+    customerName: name.value,
+    phone: phone.value,
+    shippingAddress: address.value,
+    ShippingMethodId: ship,
+  });
+};
+
+watch(name, () => {
+  onChangeInfo();
+});
+watch(phone, () => {
+  onChangeInfo();
+});
+watch(address, () => {
+  onChangeInfo();
+});
+watch(shipping, () => {
+  onChangeInfo();
+});
+</script>
 
 <style lang="scss" scoped>
 .wrapper {

@@ -22,7 +22,7 @@
               <div style="display: flex; align-items: center">
                 <div class="cart-content-price">
                   Giá:
-                  <span>{{ product?.Amount }}đ</span>
+                  <span>{{ formatNumber(product?.Amount) }}</span>
                 </div>
                 <div class="cart-content-amount">
                   SL: <span>{{ product?.Quantity }}</span>
@@ -47,10 +47,11 @@ const userStore = useUserStore();
 const productList = computed(() => {
   return userStore.userCart;
 });
+console.log(userStore.userCart);
 const total = computed(() => {
   let x = 0;
-  userStore.userCart.map((item) => {
-    x = x + item.Unit_Price * item.Quantity;
+  userStore.userCart?.map((item) => {
+    x = x + item.Amount;
   });
   return x;
 });

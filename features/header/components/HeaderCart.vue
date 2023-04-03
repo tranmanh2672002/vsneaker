@@ -72,7 +72,7 @@ const products = computed(() => {
 });
 
 const handleClickShowCart = () => {
-  // console.log(userStore.userCart);
+  console.log(userStore.userCart);
   if (!userStore.user?.isLogin) {
     navigateTo("/login");
   }
@@ -80,8 +80,7 @@ const handleClickShowCart = () => {
 };
 
 const formatNumber = (value) => {
-  const formattedNumber = value.toLocaleString("vi-VN");
-  return formattedNumber;
+  return value.toLocaleString("vi-VN", { style: "currency", currency: "VND" });
 };
 </script>
 
@@ -145,6 +144,9 @@ const formatNumber = (value) => {
             font-weight: 400;
             text-align: left;
             line-height: 1.8rem;
+            width: 240px;
+            overflow: hidden;
+            text-overflow: ellipsis;
           }
           .cart-content-bottom {
             height: 1.8rem;
