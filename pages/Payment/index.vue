@@ -30,19 +30,33 @@ definePageMeta({
 });
 
 const handleClickOrder = async () => {
+  if (
+    paymentStore.info.customerName == "" ||
+    paymentStore.info.ShippingMethodId == 0 ||
+    paymentStore.info.phone == "" ||
+    paymentStore.info.shippingAddress == ""
+  ) {
+    return;
+  }
   const data = {
     userId: userStore.user?.id,
     ...paymentStore.info,
     products: paymentStore.productOrder,
   };
   console.log(data);
-  const { res } = await useAsyncData("payment", () =>
+  const res = await useAsyncData("payment", () =>
     $fetch("http://localhost:8000/order/submit-order", {
       method: "POST",
       body: data,
     })
   );
-  alert("Order submitted successfully");
+  console.log(res.data.value.order);
+  if (res.data.value?.order) {
+    alert("Order submitted successfully");
+  } else {
+    alert("Order failed");
+  }
+  paymentStore.setInfo(undefined);
   userStore.setUserCart(undefined);
   navigateTo("/");
 };

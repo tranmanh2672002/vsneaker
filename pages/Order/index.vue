@@ -58,7 +58,7 @@ definePageMeta({
 const data = await useAsyncData("login", () =>
   $fetch(`http://localhost:8000/order/${userStore.user?.id}`)
 );
-// console.log(data.data?.value);
+console.log(data.data?.value);
 const products = ref([]);
 if (data.data?.value) {
   data.data?.value.map((item) => {

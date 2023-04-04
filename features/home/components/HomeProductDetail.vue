@@ -104,6 +104,11 @@ const sizes = ref();
 const numberOrder = ref(0);
 const numberStorage = ref(0);
 
+onUpdated(() => {
+  numberStorage.value = 0;
+  numberOrder.value = 0;
+});
+
 watchEffect(async () => {
   dialog.value = props.isShowDetail;
   const { data } = await useAsyncData("product-detail", () =>
