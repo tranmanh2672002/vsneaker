@@ -82,7 +82,7 @@ const onChangeInfo = () => {
     customerName: name.value,
     phone: phone.value,
     shippingAddress: address.value,
-    ShippingMethodId: ship,
+    shippingMethodId: ship,
   });
 };
 

@@ -29,7 +29,7 @@
                 <div style="display: flex; align-items: center">
                   <div class="cart-content-price">
                     Giá:
-                    <span>{{ product?.Amount }}đ</span>
+                    <span>{{ product?.Price }}đ</span>
                   </div>
                   <div class="cart-content-amount">
                     SL: <span>{{ product?.Quantity }}</span>
@@ -55,7 +55,7 @@ definePageMeta({
   layout: "payment",
 });
 
-const data = await useAsyncData("login", () =>
+const data = await useAsyncData("order", () =>
   $fetch(`http://localhost:8000/order/${userStore.user?.id}`)
 );
 console.log(data.data?.value);

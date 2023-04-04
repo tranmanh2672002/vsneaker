@@ -32,7 +32,7 @@ definePageMeta({
 const handleClickOrder = async () => {
   if (
     paymentStore.info.customerName == "" ||
-    paymentStore.info.ShippingMethodId == 0 ||
+    paymentStore.info.shippingMethodId == 0 ||
     paymentStore.info.phone == "" ||
     paymentStore.info.shippingAddress == ""
   ) {

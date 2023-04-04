@@ -8,7 +8,7 @@ export const usePaymentStore = defineStore('payment', () => {
             customerName: '',
             phone: '',
             shippingAddress: '',
-            ShippingMethodId: '',
+            shippingMethodId: '',
         }
     );
 
