@@ -43,14 +43,12 @@ const handleClickOrder = async () => {
     ...paymentStore.info,
     products: paymentStore.productOrder,
   };
-  console.log(data);
   const res = await useAsyncData("payment", () =>
     $fetch("http://localhost:8000/order/submit-order", {
       method: "POST",
       body: data,
     })
   );
-  console.log(res.data.value.order);
   if (res.data.value?.order) {
     alert("Order submitted successfully");
   } else {

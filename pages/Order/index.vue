@@ -29,7 +29,7 @@
                 <div style="display: flex; align-items: center">
                   <div class="cart-content-price">
                     Giá:
-                    <span>{{ product?.Price }}đ</span>
+                    <span>{{ formatNumber(product?.Price) }}</span>
                   </div>
                   <div class="cart-content-amount">
                     SL: <span>{{ product?.Quantity }}</span>
@@ -58,14 +58,16 @@ definePageMeta({
 const data = await useAsyncData("order", () =>
   $fetch(`http://localhost:8000/order/${userStore.user?.id}`)
 );
-console.log(data.data?.value);
 const products = ref([]);
 if (data.data?.value) {
   data.data?.value.map((item) => {
     products.value = [...products.value, ...item.detail];
   });
 }
-// console.log(products.value);
+
+const formatNumber = (value) => {
+  return value.toLocaleString("vi-VN", { style: "currency", currency: "VND" });
+};
 </script>
 
 <style lang="scss" scoped>

@@ -47,7 +47,6 @@ const userStore = useUserStore();
 const productList = computed(() => {
   return userStore.userCart;
 });
-console.log(userStore.userCart);
 const total = computed(() => {
   let x = 0;
   userStore.userCart?.map((item) => {

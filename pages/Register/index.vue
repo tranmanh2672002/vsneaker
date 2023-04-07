@@ -56,7 +56,6 @@ const handleClickRegister = async () => {
       body: newUser,
     })
   );
-  console.log(data.data.value.register);
   if (data.data.value.register) {
     navigateTo("/login");
     alert("Register successfully, login please!");
