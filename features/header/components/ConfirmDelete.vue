@@ -35,13 +35,11 @@ const props = defineProps({
 const isShowPopup = ref(false);
 
 const handleClickDelete = async () => {
-  //   console.log(props.id);
   const { data } = await useAsyncData("deleteItem", () =>
     $fetch(`http://localhost:8000/cart/delete/${props.id}`, {
       method: "DELETE",
     })
   );
-  //   console.log(data);
   if (data.value?.delete) {
     userStore.getDataCart();
   }

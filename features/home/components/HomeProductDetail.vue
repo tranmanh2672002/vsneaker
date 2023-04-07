@@ -116,7 +116,6 @@ watchEffect(async () => {
   );
 
   productDetail.value = data.value?.detail;
-  console.log(productDetail.value);
   sizes.value = data.value?.sizes;
 });
 

@@ -59,6 +59,7 @@
       </v-col>
     </v-row>
     <v-pagination
+      size="small"
       v-model="page"
       :length="lengthPage"
       :total-visible="6"
