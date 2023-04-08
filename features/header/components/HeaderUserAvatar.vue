@@ -24,6 +24,7 @@
 </template>
 
 <script setup>
+import { toast } from "vue3-toastify";
 import { useUserStore } from "~~/store/userStore";
 
 const userStore = useUserStore();
@@ -41,6 +42,7 @@ const handleLogout = () => {
     isLogin: false,
   });
   navigateTo("/login");
+  toast.success("Logout successfully");
 };
 
 const handleClickLogin = () => {
@@ -72,7 +74,7 @@ const handleClickLogin = () => {
 
     .content {
       width: 100%;
-      padding: 4px;
+      padding: 10px 4px;
       &:hover {
         background-color: rgb(228, 228, 228);
       }

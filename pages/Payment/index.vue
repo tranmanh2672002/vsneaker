@@ -18,6 +18,7 @@
 </template>
 
 <script setup>
+import { toast } from "vue3-toastify";
 import PaymentHeader from "~~/features/payment/component/PaymentHeader.vue";
 import PaymentInfo from "~~/features/payment/component/PaymentInfo.vue";
 import PaymentProduct from "~~/features/payment/component/PaymentProduct.vue";
@@ -36,6 +37,7 @@ const handleClickOrder = async () => {
     paymentStore.info.phone == "" ||
     paymentStore.info.shippingAddress == ""
   ) {
+    toast.info("Enter your information, please!");
     return;
   }
   const data = {
@@ -43,6 +45,7 @@ const handleClickOrder = async () => {
     ...paymentStore.info,
     products: paymentStore.productOrder,
   };
+  console.log(data);
   const res = await useAsyncData("payment", () =>
     $fetch("http://localhost:8000/order/submit-order", {
       method: "POST",
@@ -50,9 +53,9 @@ const handleClickOrder = async () => {
     })
   );
   if (res.data.value?.order) {
-    alert("Order submitted successfully");
+    toast.success("Order submitted successfully");
   } else {
-    alert("Order failed");
+    toast.error("Order failed");
   }
   paymentStore.setInfo(undefined);
   userStore.setUserCart(undefined);

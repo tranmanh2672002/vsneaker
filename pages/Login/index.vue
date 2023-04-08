@@ -35,6 +35,7 @@
 
 <script setup>
 import { useUserStore } from "~~/store/userStore";
+import { toast } from "vue3-toastify";
 definePageMeta({
   layout: "auth",
 });
@@ -72,11 +73,13 @@ const handleClickLogin = async () => {
     console.log(user);
     if (user[0].User_type === "admin") {
       navigateTo("/admin");
+      toast.success("Login successfully");
     } else {
       navigateTo("/");
+      toast.success("Login successfully");
     }
   } else {
-    alert("Login failed");
+    toast.error("Login failed");
   }
   loading.value = false;
 };

@@ -35,6 +35,7 @@
 </template>
 
 <script setup>
+import { toast } from "vue3-toastify";
 definePageMeta({
   layout: "auth",
 });
@@ -58,9 +59,9 @@ const handleClickRegister = async () => {
   );
   if (data.data.value.register) {
     navigateTo("/login");
-    alert("Register successfully, login please!");
+    toast.success("Register successfully, login please!");
   } else {
-    alert("User already registered");
+    toast.error("User already registered");
   }
   loading.value = false;
 };

@@ -23,6 +23,7 @@
 </template>
 
 <script setup>
+import { toast } from "vue3-toastify";
 import { useUserStore } from "~~/store/userStore";
 const userStore = useUserStore();
 
@@ -42,6 +43,7 @@ const handleClickDelete = async () => {
   );
   if (data.value?.delete) {
     userStore.getDataCart();
+    toast.success("Delete successfully");
   }
   isShowPopup.value = false;
 };
