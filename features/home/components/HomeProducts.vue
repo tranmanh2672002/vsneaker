@@ -1,31 +1,16 @@
 <template>
   <v-container class="bg-surface-variant mb-6">
     <v-row align="start" no-gutters>
-      <v-col
-        v-for="product in listProducts"
-        lg="3"
-        md="4"
-        sm="6"
-        xs="12"
-        :key="product.ID"
-      >
+      <v-col v-for="product in listProducts" lg="3" md="4" sm="6" xs="12" :key="product.ID">
         <div class="mx-4">
           <v-card class="card" style="margin-bottom: 20px">
             <div v-if="product.Discount_percent !== 0" class="card-discount">
               {{ product.Discount_percent }}%
             </div>
-            <div
-              v-if="product.Discount_percent !== 0"
-              class="card-discount-border"
-            ></div>
+            <div v-if="product.Discount_percent !== 0" class="card-discount-border"></div>
             <v-card-item>
               <div>
-                <v-img
-                  :src="product.Product_IMG"
-                  :lazy-src="product.Product_IMG"
-                  cover
-                  class="text-white"
-                >
+                <v-img :src="product.Product_IMG" :lazy-src="product.Product_IMG" cover class="text-white">
                 </v-img>
                 <div class="card-title">
                   {{ product.Product_name + " " + product.Sku }}
@@ -38,7 +23,7 @@
                   {{
                     formatNumber(
                       product.Price -
-                        (product.Price * product.Discount_percent) / 100
+                      (product.Price * product.Discount_percent) / 100
                     )
                   }}
                   đ
@@ -55,18 +40,10 @@
         </div>
       </v-col>
     </v-row>
-    <v-pagination
-      v-model="page"
-      :length="lengthPage"
-      :total-visible="6"
-      @update:model-value="handleClickUpdate"
-    ></v-pagination>
+    <v-pagination v-model="page" :length="lengthPage" :total-visible="6"
+      @update:model-value="handleClickUpdate"></v-pagination>
   </v-container>
-  <HomeProductDetail
-    :isShowDetail="isShowDetail"
-    :id-product="currIdProduct"
-    @setShowDetail="handleCloseShowDetail"
-  />
+  <HomeProductDetail :isShowDetail="isShowDetail" :id-product="currIdProduct" @setShowDetail="handleCloseShowDetail" />
 </template>
 
 <script setup>
@@ -129,9 +106,11 @@ const handleCloseShowDetail = () => {
   cursor: pointer;
   transition: all 0.2s ease-in-out;
   position: relative;
+
   &:hover {
     scale: 1.05;
   }
+
   .card-discount {
     position: absolute;
     top: 0;
@@ -145,6 +124,7 @@ const handleCloseShowDetail = () => {
     padding: 8px 4px;
     z-index: 10;
   }
+
   .card-discount-border {
     position: absolute;
     top: 44px;
