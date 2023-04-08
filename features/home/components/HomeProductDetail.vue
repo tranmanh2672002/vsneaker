@@ -79,6 +79,7 @@
 </template>
 
 <script setup>
+import { toast } from "vue3-toastify";
 import { useUserStore } from "~~/store/userStore";
 
 const userStore = useUserStore();
@@ -143,6 +144,7 @@ const setSizeStorage = () => {
 const handleClickAddToCart = async () => {
   if (!userStore.user?.isLogin) {
     navigateTo("/login");
+    toast.warning("Login please!");
     return;
   }
   if (numberOrder.value > 0) {
@@ -159,12 +161,13 @@ const handleClickAddToCart = async () => {
       })
     );
     if (data.data.value?.add) {
+      toast.success("Add to cart");
       userStore.getDataCart();
       dialog.value = false;
       emit("setShowDetail");
     }
   } else {
-    alert("Please select number order");
+    toast.warning("Please select number order");
   }
   numberOrder.value = 0;
 };

@@ -29,7 +29,7 @@
                 <div style="display: flex; align-items: center">
                   <div class="cart-content-price">
                     Giá:
-                    <span>{{ formatNumber(product?.Price) }}</span>
+                    <span>{{ product?.Price }}</span>
                   </div>
                   <div class="cart-content-amount">
                     SL: <span>{{ product?.Quantity }}</span>
@@ -64,10 +64,6 @@ if (data.data?.value) {
     products.value = [...products.value, ...item.detail];
   });
 }
-
-const formatNumber = (value) => {
-  return value.toLocaleString("vi-VN", { style: "currency", currency: "VND" });
-};
 </script>
 
 <style lang="scss" scoped>
