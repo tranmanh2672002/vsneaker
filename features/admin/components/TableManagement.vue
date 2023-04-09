@@ -263,10 +263,6 @@ async function showProductDetail (event) {
     productId.value = event;
 }
 
-watch(sizes.value, async () => {
-    showProductDetail(productId.value)
-})
-
 async function showPurchaseHistory (accountId) {
     const { data } = await useAsyncData("purchase-history", () =>
         $fetch(`http://localhost:8000/order/${accountId}/all`)
@@ -298,7 +294,6 @@ function convertDate (date) {
 function showDeleteModal (event) {
     isDelete.value = !isDelete.value;
     accountId.value = event;
-
 }
 
 function addSizes (event) {
@@ -306,6 +301,7 @@ function addSizes (event) {
     sizeSelected.value = null;
     quantity.value = null;
     productId.value = event;
+    console.log(sizes.value);
 }
 
 async function handleAddSizes () {
@@ -328,6 +324,8 @@ async function handleAddSizes () {
                 isAddSizes.value = false;
                 isSuccessStatus.value = true;
             }
+            await showProductDetail(productId.value);
+
         } catch (error) {
             if (error) {
                 isAddSizes.value = false;
