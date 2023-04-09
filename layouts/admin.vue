@@ -1,7 +1,22 @@
 <template>
-  <slot />
+  <div class="container">
+    <admin-header />
+    <div class="space"></div>
+    <slot />
+    <main-footer />
+  </div>
 </template>
 
-<script setup></script>
+<script setup>
+import MainFooter from "../components/MainFooter.vue";
+import AdminHeader from "~~/components/AdminHeader.vue";
 
-<style lang="scss" scoped></style>
+</script>
+
+<style lang="scss" scoped>
+.container {
+  .space {
+    height: 80px;
+  }
+}
+</style>
