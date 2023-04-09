@@ -1,5 +1,6 @@
 <template>
-  <div v-if="userStore.user?.role === 'customer'">
+  <div v-if="userStore.user?.role === 'admin'"></div>
+  <div v-else>
     <MainSlider />
     <HomeBanner />
     <div style="display: flex; margin-top: 30px">
