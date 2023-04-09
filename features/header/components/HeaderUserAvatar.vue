@@ -10,7 +10,11 @@
     <v-btn @click="showLogOut" class="Header-user-btn" icon="mdi-account">
     </v-btn>
     <div v-if="isShowLogOut" class="logout">
-      <div @click="navigateTo('/order')" class="content">
+      <div
+        v-if="user?.role !== 'admin'"
+        @click="navigateTo('/order')"
+        class="content"
+      >
         <v-icon icon="mdi-cart-variant  "></v-icon>
         Sản phẩm đã đặt
       </div>

@@ -1,5 +1,5 @@
 <template>
-  <div class="container">
+  <div v-if="userStore.user?.role === 'admin'" class="container">
     <v-row no-gutters>
       <v-col cols="3" class="management">
         <SidebarAdmin @handle-click="handleClick" />
@@ -9,22 +9,24 @@
       </v-col>
     </v-row>
   </div>
+  <div v-else>Authorization</div>
 </template>
 
 <script setup>
-import SidebarAdmin from '~~/features/admin/components/SidebarAdmin.vue';
-import ManagementDisplay from '../../features/admin/components/ManagementDisplay.vue';
+import SidebarAdmin from "~~/features/admin/components/SidebarAdmin.vue";
+import ManagementDisplay from "../../features/admin/components/ManagementDisplay.vue";
+import { useUserStore } from "~~/store/userStore";
+const userStore = useUserStore();
 
 definePageMeta({
   layout: "admin",
 });
 
-const clickedElement = ref('Home')
+const clickedElement = ref("Home");
 
-function handleClick (event) {
+function handleClick(event) {
   clickedElement.value = event;
 }
-
 </script>
 
 <style lang="scss" scoped>

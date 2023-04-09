@@ -4,7 +4,8 @@ export const useUserStore = defineStore('user', () => {
     const user = ref({
         username: '',
         isLogin: false,
-        id: ''
+        id: '',
+        role: ''
     });
 
     const userCart = ref();
@@ -13,6 +14,7 @@ export const useUserStore = defineStore('user', () => {
         user.value.username = data.username;
         user.value.isLogin = data.isLogin;
         user.value.id = data.id;
+        user.value.role = data.role;
     }
 
     const setUserCart = (data) => {

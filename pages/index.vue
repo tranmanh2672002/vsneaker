@@ -1,11 +1,13 @@
 <template>
-  <MainSlider />
-  <HomeBanner />
-  <div style="display: flex; margin-top: 30px">
-    <HomeFilters />
-    <HomeProducts />
+  <div v-if="userStore.user?.role === 'customer'">
+    <MainSlider />
+    <HomeBanner />
+    <div style="display: flex; margin-top: 30px">
+      <HomeFilters />
+      <HomeProducts />
 
-    <ScrollTopBtn />
+      <ScrollTopBtn />
+    </div>
   </div>
 </template>
 
@@ -15,6 +17,8 @@ import HomeFilters from "~~/features/home/components/HomeFilters.vue";
 import HomeProducts from "~~/features/home/components/HomeProducts.vue";
 import HomeBanner from "~~/features/home/components/HomeBanner.vue";
 import ScrollTopBtn from "~~/components/ScrollTopBtn.vue";
+import { useUserStore } from "~~/store/userStore";
+const userStore = useUserStore();
 </script>
 
 <style lang="scss" scoped></style>
