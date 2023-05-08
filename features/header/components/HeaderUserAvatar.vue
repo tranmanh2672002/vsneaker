@@ -10,9 +10,17 @@
     <v-btn @click="showLogOut" class="Header-user-btn" icon="mdi-account">
     </v-btn>
     <div v-if="isShowLogOut" class="logout">
+      <div
+        v-if="user?.role !== 'admin'"
+        @click="navigateTo('/order')"
+        class="content"
+      >
+        <v-icon icon="mdi-cart-variant  "></v-icon>
+        Sản phẩm đã đặt
+      </div>
       <div @click="handleLogout" class="content">
         <v-icon icon="mdi-logout "></v-icon>
-        Log out
+        Đăng xuất
       </div>
     </div>
     <div v-if="isShowLogOut" class="border-triangle"></div>
@@ -20,6 +28,7 @@
 </template>
 
 <script setup>
+import { toast } from "vue3-toastify";
 import { useUserStore } from "~~/store/userStore";
 
 const userStore = useUserStore();
@@ -37,6 +46,7 @@ const handleLogout = () => {
     isLogin: false,
   });
   navigateTo("/login");
+  toast.success("Logout successfully");
 };
 
 const handleClickLogin = () => {
@@ -51,22 +61,24 @@ const handleClickLogin = () => {
   position: relative;
   .logout {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     position: absolute;
     top: calc(100% + 16px);
     right: 0;
-    width: 120px;
-    height: 44px;
+    width: 220px;
+    // height: 44px;
     background-color: white;
     color: black;
     padding: 4px;
     border-radius: 4px;
     cursor: pointer;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
 
     .content {
       width: 100%;
-      padding: 4px;
+      padding: 10px 4px;
       &:hover {
         background-color: rgb(228, 228, 228);
       }

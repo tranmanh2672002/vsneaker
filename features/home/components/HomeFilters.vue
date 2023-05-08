@@ -47,6 +47,9 @@
 </template>
 
 <script setup>
+import { useProductStore } from "../store/productStore";
+const productStore = useProductStore();
+
 const brands = ref([]);
 const price = ref();
 const sizes = ref([]);
@@ -58,17 +61,10 @@ const dataPrices = [
   "Dưới 3.000.000đ",
   "Dưới 4.000.000đ",
   "Dưới 5.000.000đ",
-  "Trên 5.000.000đ",
+  "Dưới 10.000.000đ",
 ];
 
-const dataBrands = [
-  "Nike",
-  "Adidas",
-  "Converse",
-  "Gucci",
-  "Dior",
-  "New Balance",
-];
+const dataBrands = ["Vans", "Converse", "Palladium", "Supra", "K-Swiss"];
 
 const dataSizes = [
   "4US",
@@ -88,7 +84,7 @@ const dataSizes = [
 
 const dataSale = ["Giảm giá"];
 
-const handleClickSearch = () => {
+const handleClickSearch = async () => {
   let priceValue = null;
   if (price.value) {
     switch (price.value) {
@@ -111,8 +107,8 @@ const handleClickSearch = () => {
         priceValue = 5000000;
 
         break;
-      case "Trên 5.000.000đ":
-        priceValue = 20000000;
+      case "Dưới 10.000.000đ":
+        priceValue = 10000000;
 
         break;
     }
@@ -123,7 +119,9 @@ const handleClickSearch = () => {
     price: priceValue,
     sale: sale.value.length !== 0 ? true : false,
   };
-  console.log(dataFilters);
+  productStore.setFilter(dataFilters);
+  productStore.setCurrPage(1);
+  productStore.getProducts(1);
 };
 </script>
 

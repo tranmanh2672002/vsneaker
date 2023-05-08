@@ -23,12 +23,19 @@
           >
         </div>
       </v-form>
+      <div class="loading" v-if="loading">
+        <v-progress-circular
+          indeterminate
+          color="primary"
+        ></v-progress-circular>
+      </div>
     </v-sheet>
   </div>
 </template>
 
 <script setup>
 import { useUserStore } from "~~/store/userStore";
+import { toast } from "vue3-toastify";
 definePageMeta({
   layout: "auth",
 });
@@ -38,9 +45,14 @@ const { setUser } = userStore;
 
 const username = ref("");
 const password = ref("");
+const loading = ref(false);
 
 const handleClickLogin = async () => {
-  if (username.value == "" || password.value == "") return;
+  loading.value = true;
+  if (username.value == "" || password.value == "") {
+    loading.value = false;
+    return;
+  }
   const user = {
     username: username.value,
     password: password.value,
@@ -56,11 +68,21 @@ const handleClickLogin = async () => {
     setUser({
       username: user[0].Username,
       isLogin: true,
+      id: user[0].ID,
+      role: user[0].User_type,
     });
-    navigateTo("/");
+    console.log(user);
+    if (user[0].User_type === "admin") {
+      navigateTo("/admin");
+      toast.success("Login successfully");
+    } else {
+      navigateTo("/");
+      toast.success("Login successfully");
+    }
   } else {
-    alert("Login failed");
+    toast.error("Login failed");
   }
+  loading.value = false;
 };
 </script>
 
@@ -83,5 +105,10 @@ const handleClickLogin = async () => {
   width: 100px;
   text-decoration: none;
   margin-top: 20px;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
 }
 </style>

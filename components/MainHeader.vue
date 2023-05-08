@@ -21,10 +21,6 @@
 import logo from "../assets/images/Header-logo.png";
 import HeaderCart from "../features/header/components/HeaderCart.vue";
 import HeaderUserAvatar from "../features/header/components/HeaderUserAvatar.vue";
-
-// const isLogin = window.localStorage.getItem("isLogin");
-
-// console.log(isLogin);
 </script>
 
 <style lang="scss" scoped>

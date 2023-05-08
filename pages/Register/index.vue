@@ -24,19 +24,28 @@
           >
         </div>
       </v-form>
+      <div class="loading" v-if="loading">
+        <v-progress-circular
+          indeterminate
+          color="primary"
+        ></v-progress-circular>
+      </div>
     </v-sheet>
   </div>
 </template>
 
 <script setup>
+import { toast } from "vue3-toastify";
 definePageMeta({
   layout: "auth",
 });
 
 const username = ref("");
 const password = ref("");
+const loading = ref(false);
 
 const handleClickRegister = async () => {
+  loading.value = true;
   if (username.value === "" || password.value === "") return;
   const newUser = {
     username: username.value,
@@ -48,13 +57,13 @@ const handleClickRegister = async () => {
       body: newUser,
     })
   );
-  console.log(data.data.value.register);
   if (data.data.value.register) {
     navigateTo("/login");
-    alert("Please login");
+    toast.success("Register successfully, login please!");
   } else {
-    alert("User already registered");
+    toast.error("User already registered");
   }
+  loading.value = false;
 };
 </script>
 
@@ -77,5 +86,10 @@ const handleClickRegister = async () => {
   width: 100px;
   text-decoration: none;
   margin-top: 20px;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
 }
 </style>

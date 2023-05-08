@@ -5,34 +5,48 @@
     </v-badge>
     <div v-if="showCart" class="border-triangle"></div>
     <div v-if="showCart" class="cart-products">
-      <!-- <div class="cart-noProduct">
+      <div class="cart-noProduct" v-if="!userStore.userCart?.length">
         <v-img class="img" width="50%" :src="NoProduct" cover></v-img>
         <span class="text">Không có sản phẩm</span>
-      </div> -->
-      <div class="cart-wrapper">
+      </div>
+      <div class="cart-wrapper" v-else>
         <h1 class="cart-title">Sản phẩm của bạn</h1>
         <div class="cart-lists">
-          <div class="cart-item" v-for="item in 8" :key="item">
+          <div class="cart-item" v-for="product in products" :key="product.ID">
             <div class="cart-thumbnail">
-              <v-img class="img" width="60px" :src="NoProduct" cover></v-img>
+              <v-img
+                class="img"
+                width="60px"
+                :src="product?.Product_IMG"
+                :lazy-src="product?.Product_IMG"
+                cover
+              ></v-img>
             </div>
             <div class="cart-content">
-              <h4 class="cart-content-title">Vans MN Skate Old School</h4>
+              <h4 class="cart-content-title">
+                {{ product?.Product_name }}
+              </h4>
               <div class="cart-content-bottom">
                 <div style="display: flex; align-items: center">
                   <div class="cart-content-price">
                     Giá:
-                    <span>2.000.000đ</span>
+                    {{ formatNumber(product?.Amount) }}
                   </div>
-                  <div class="cart-content-amount">SL: <span>3</span></div>
+                  <div class="cart-content-amount">
+                    SL: <span>{{ product?.Quantity }}</span>
+                  </div>
                 </div>
-                <div class="cart-content-delete">xóa</div>
+                <div class="cart-content-delete">
+                  <ConfirmDelete :id="product?.cartItemId.toString()" />
+                </div>
               </div>
             </div>
           </div>
         </div>
         <div class="cart-addToCart">
-          <v-btn color="error" size="small">Thanh toán</v-btn>
+          <v-btn @click="navigateTo('/payment')" color="error" size="small"
+            >Thanh toán</v-btn
+          >
         </div>
       </div>
     </div>
@@ -42,15 +56,31 @@
 <script setup>
 import NoProduct from "../../../assets/images/noProduct.png";
 import { useUserStore } from "~~/store/userStore";
+import ConfirmDelete from "./ConfirmDelete.vue";
 
 const userStore = useUserStore();
-const { user } = userStore;
 const showCart = ref(false);
+// const products = ref([]);
+
+if (userStore.user?.id) {
+  userStore.getDataCart();
+}
+
+// products.value = userStore.userCart;
+const products = computed(() => {
+  return userStore.userCart;
+});
+
 const handleClickShowCart = () => {
-  if (!user?.isLogin) {
+  console.log(userStore.userCart);
+  if (!userStore.user?.isLogin) {
     navigateTo("/login");
   }
   showCart.value = !showCart.value;
+};
+
+const formatNumber = (value) => {
+  return value.toLocaleString("vi-VN", { style: "currency", currency: "VND" });
 };
 </script>
 
@@ -70,6 +100,7 @@ const handleClickShowCart = () => {
     z-index: 100;
     overflow: hidden;
     text-transform: none;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
     .cart-noProduct {
       widows: 100%;
       .img {
@@ -113,6 +144,9 @@ const handleClickShowCart = () => {
             font-weight: 400;
             text-align: left;
             line-height: 1.8rem;
+            width: 240px;
+            overflow: hidden;
+            text-overflow: ellipsis;
           }
           .cart-content-bottom {
             height: 1.8rem;
@@ -128,6 +162,8 @@ const handleClickShowCart = () => {
             .cart-content-delete {
               color: #e91717;
               margin: 0 20px;
+              cursor: pointer;
+
               &:hover {
                 opacity: 0.8;
                 text-decoration: underline;

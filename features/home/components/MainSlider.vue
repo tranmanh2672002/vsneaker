@@ -1,5 +1,5 @@
 <template>
-  <v-carousel cycle height="400" hide-delimiter-background show-arrows="hover">
+  <v-carousel cycle height="520" hide-delimiter-background show-arrows="hover">
     <v-carousel-item v-for="n in images" :key="n.id">
       <img class="MainBanner-slider" :src="n.src" alt="slider" />
     </v-carousel-item>
