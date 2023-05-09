@@ -69,6 +69,7 @@ const handleClickLogin = async () => {
       username: user[0].Username,
       isLogin: true,
       id: user[0].ID,
+      role: user[0].User_type,
     });
     console.log(user);
     if (user[0].User_type === "admin") {

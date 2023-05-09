@@ -1,16 +1,31 @@
 <template>
   <v-container class="bg-surface-variant mb-6">
     <v-row align="start" no-gutters>
-      <v-col v-for="product in listProducts" lg="3" md="4" sm="6" xs="12" :key="product.ID">
+      <v-col
+        v-for="product in listProducts"
+        lg="3"
+        md="4"
+        sm="6"
+        xs="12"
+        :key="product.ID"
+      >
         <div class="mx-4">
           <v-card class="card" style="margin-bottom: 20px">
             <div v-if="product.Discount_percent !== 0" class="card-discount">
               {{ product.Discount_percent }}%
             </div>
-            <div v-if="product.Discount_percent !== 0" class="card-discount-border"></div>
+            <div
+              v-if="product.Discount_percent !== 0"
+              class="card-discount-border"
+            ></div>
             <v-card-item>
               <div>
-                <v-img :src="product.Product_IMG" :lazy-src="product.Product_IMG" cover class="text-white">
+                <v-img
+                  :src="product.Product_IMG"
+                  :lazy-src="product.Product_IMG"
+                  cover
+                  class="text-white"
+                >
                 </v-img>
                 <div class="card-title">
                   {{ product.Product_name }}
@@ -26,7 +41,7 @@
                   {{
                     formatNumber(
                       product.Price -
-                      (product.Price * product.Discount_percent) / 100
+                        (product.Price * product.Discount_percent) / 100
                     )
                   }}
                   đ
@@ -43,10 +58,19 @@
         </div>
       </v-col>
     </v-row>
-    <v-pagination size="small" v-model="page" :length="lengthPage" :total-visible="6"
-      @update:model-value="handleClickUpdate"></v-pagination>
+    <v-pagination
+      size="small"
+      v-model="page"
+      :length="lengthPage"
+      :total-visible="6"
+      @update:model-value="handleClickUpdate"
+    ></v-pagination>
   </v-container>
-  <HomeProductDetail :isShowDetail="isShowDetail" :id-product="currIdProduct" @setShowDetail="handleCloseShowDetail" />
+  <HomeProductDetail
+    :isShowDetail="isShowDetail"
+    :id-product="currIdProduct"
+    @setShowDetail="handleCloseShowDetail"
+  />
 </template>
 
 <script setup>
@@ -121,7 +145,7 @@ const handleCloseShowDetail = () => {
     width: 50px;
     height: 44px;
     color: #f10000;
-    font-size: 1.2rem;
+    font-size: 1.1rem;
     text-align: center;
     background-color: yellow;
     padding: 8px 4px;
