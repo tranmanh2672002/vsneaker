@@ -5,29 +5,13 @@
         <v-row>
           <v-col cols="6">
             <div class="dialog-img">
-              <v-img
-                :src="productDetail?.Product_IMG"
-                :lazy-src="productDetail?.Product_IMG"
-                cover
-              ></v-img>
+              <v-img :src="productDetail?.Product_IMG" :lazy-src="productDetail?.Product_IMG" cover></v-img>
             </div>
             <div class="dialog-bottom">
               <div class="dialog-groupBtn">
-                <v-btn
-                  @click="clickMinus"
-                  class="dialog-btn"
-                  rounded="0"
-                  size="small"
-                  icon="mdi-minus "
-                ></v-btn>
+                <v-btn @click="clickMinus" class="dialog-btn" rounded="0" size="small" icon="mdi-minus "></v-btn>
                 <span class="order-number">{{ numberOrder }}</span>
-                <v-btn
-                  @click="clickAdd"
-                  class="dialog-btn"
-                  rounded="0"
-                  size="small"
-                  icon="mdi-plus "
-                ></v-btn>
+                <v-btn @click="clickAdd" class="dialog-btn" rounded="0" size="small" icon="mdi-plus "></v-btn>
               </div>
               <div class="dialog-amount">SL: {{ numberStorage }}</div>
             </div>
@@ -41,11 +25,7 @@
             </div>
             <div class="size">
               <v-btn-toggle v-model="size" mandatory>
-                <v-btn
-                  @click="setSizeStorage"
-                  class="btn"
-                  v-for="size in sizes"
-                >
+                <v-btn @click="setSizeStorage" class="btn" v-for="size in sizes">
                   {{ size?.Size }}
                 </v-btn>
               </v-btn-toggle>
@@ -61,16 +41,9 @@
           </v-col>
         </v-row>
         <div style="display: flex; justify-content: center">
-          <v-btn @click="handleClickAddToCart" color="error" height="40px"
-            >Thêm giỏ hàng</v-btn
-          >
+          <v-btn @click="handleClickAddToCart" color="error" height="40px">Thêm giỏ hàng</v-btn>
         </div>
-        <div
-          class="btn-close"
-          @click="handleCloseDialog"
-          color="error"
-          height="40px"
-        >
+        <div class="btn-close" @click="handleCloseDialog" color="error" height="40px">
           <v-icon icon="mdi-close "></v-icon>
         </div>
       </div>
@@ -187,12 +160,13 @@ const handleClickAddToCart = async () => {
     right: 10px;
     color: #606060;
     cursor: pointer;
+
     &:hover {
       color: #888888;
     }
   }
-  .dialog-img {
-  }
+
+  .dialog-img {}
 
   .dialog-title {
     display: block;
@@ -207,6 +181,7 @@ const handleClickAddToCart = async () => {
     font-size: 1.2rem;
     font-weight: 500;
   }
+
   .dialog-description {
     font-size: 1rem;
     color: rgb(71, 71, 71);
@@ -257,11 +232,14 @@ const handleClickAddToCart = async () => {
     :deep(.v-btn-group) {
       flex-wrap: wrap;
       height: 100px;
+
       .v-btn {
         max-height: 50px;
       }
     }
+
     margin-top: 20px;
+
     .btn {
       width: 40px;
       height: 40px;

@@ -1,33 +1,18 @@
 <template>
-  <div class="container">
-    <v-row no-gutters>
-      <v-col cols="3" class="management">
-        <SidebarAdmin @handle-click="handleClick" />
-      </v-col>
-      <v-col cols="9" class="management-display">
-        <ManagementDisplay :clicked-element="clickedElement" />
-      </v-col>
-    </v-row>
+  <div class="management-form">
+    <h1>Home</h1>
   </div>
 </template>
 
 <script setup>
-import SidebarAdmin from '~~/features/admin/components/SidebarAdmin.vue';
-import ManagementDisplay from '../../features/admin/components/ManagementDisplay.vue';
-
 definePageMeta({
+  middleware: 'auth',
   layout: "admin",
 });
 
-const clickedElement = ref('Home')
-
-function handleClick (event) {
-  clickedElement.value = event;
-}
-
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .container {
   margin: 20px 0;
 }

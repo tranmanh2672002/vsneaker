@@ -1,7 +1,6 @@
 import { defineStore } from "pinia";
 
 export const useProducts = defineStore("CRUD_Product", () => {
-  const discountNames = ref([]);
   const products = ref([]);
   const pages = ref(0);
   const currPage = ref(1);
